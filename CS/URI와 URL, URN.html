@@ -1,0 +1,108 @@
+<div class="markdown-body">
+  <aside class="goal">🚀 목표 : URI와 URL, URN에 대해 알아보기</aside>
+
+  <h2>URI</h2>
+  <p>
+    <code>URI(Uniform Resource Identifier, 통합 자원 식별자)</code>는 인터넷에
+    있는 자원을 나타내는 유일한 주소를 의미합니다. URI의 정의 및 구조는
+    <a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986</a>이라는
+    문서에서 정의되었습니다. 일반적으로 URI는 아래와 같은 구조를 가지고
+    있습니다.
+  </p>
+  <blockquote data-ke-style="style1">
+    <p data-ke-size="size16">
+      <span style="font-family: 'Noto Serif KR'"
+        ><p>
+          <strong>scheme:</strong
+          >[<strong>//</strong>[<strong>user</strong>[<strong>:password</strong>]<strong>@</strong>]<strong>host</strong>[<strong>:port</strong>]][<strong>/path</strong>][?<strong>query</strong>][#<strong>fragment</strong>]
+        </p>
+      </span>
+    </p>
+  </blockquote>
+  <h3>🤔 URI와 URL의 차이점</h3>
+  <p>
+    URL은 URI의 종류 중 하나를 의미합니다.<br />URI는 크게 URL과 URN으로 종류가
+    나뉘며, 현재 웹에서는 일반적으로 URL이 널리 통용되어 사용되고 있습니다.
+  </p>
+  <h2>URN</h2>
+  <p>
+    <strong><code>URN(Uniform Resource Name, 통합 자원 이름)</code></strong
+    >은 이름을 통해 자원을 식별하는 방식을 의미합니다. URN은 아래와 같이 urn과
+    이름공간으로 구성되어 있으며, 주어진 이름 공간 안의 이름으로 자원을
+    식별합니다. <strong>현재 웹에서는 거의 사용되지 않고 있습니다.</strong>
+  </p>
+  <p>예) 도서 ISBN</p>
+  <blockquote data-ke-style="style1">
+    <p data-ke-size="size16">
+      <span style="font-family: 'Noto Serif KR'"
+        ><p>urn:oasis:names:specification:docbook:dtd:xml:4.1.2</p>
+      </span>
+    </p>
+  </blockquote>
+  <h2>URL</h2>
+  <p>
+    <strong><code>URL(Uniform Resource Locator)</code></strong
+    >은 네트워크 상에서 자원이 어디 있는지를 알려주기 위한 주소를 의미합니다. 즉
+    웹 페이지의 주소에 해당합니다. URL을 통해 웹 페이지 자원의 위치 뿐만 아니라
+    실시간 교통 정보 등 컴퓨터 네트워크 상의 모든 자원을 나타낼 수 있으며, 현재
+    웹에서 보편화되어 사용되고 있습니다.
+  </p>
+  <p>URL은 아래와 같은 구조를 지니고 있습니다.</p>
+  <blockquote data-ke-style="style1">
+    <p data-ke-size="size16">
+      <span style="font-family: 'Noto Serif KR'"
+        ><p>
+          scheme://[userinfo@]host[:port][/path][?query][#fragment]<br />예시 )
+          <a href="https://www.google.com/search?=hello&amp;hi=ko"
+            >https://www.google.com/search?=hello&amp;hi=ko</a
+          >
+        </p>
+      </span>
+    </p>
+  </blockquote>
+  <h4>scheme</h4>
+  <p>
+    사용하는 프로토콜을 의미합니다. 가장 대표적인 프로토콜로는
+    <code>http(80포트)</code>, <code>https(443 포트)</code>가
+    있습니다.프로토콜이 정확히 명시되면 뒤의 port는 생략 가능합니다.
+  </p>
+  <blockquote data-ke-style="style1">
+    <p data-ke-size="size16">
+      <span style="font-family: 'Noto Serif KR'"
+        ><p>프로토콜 : 어떤 방식으로 자원에 접근할 것인가 하는 약속 규칙</p>
+      </span>
+    </p>
+  </blockquote>
+  <blockquote data-ke-style="style1">
+    <p data-ke-size="size16">
+      <span style="font-family: 'Noto Serif KR'"
+        ><p>https: http에 보안을 추가한 프로토콜 (HTTP Secure)</p>
+      </span>
+    </p>
+  </blockquote>
+  <h4>userinfo</h4>
+  <p>
+    URL에 사용자정보를 포함해서 인증해야할 때 사용하는 정보입니다. 현재는 거의
+    사용하지 않고 있습니다.
+  </p>
+  <h4>host</h4>
+  <p>호스트명을 의미합니다. 도메인명 혹은 IP 주소를 직접 사용할 수 있습니다.</p>
+  <h4>PORT</h4>
+  <p>
+    접속 포트를 의미합니다. 일반적으로 프로토콜의 명시와 함께 생략되며, 자주
+    사용되는 포트 번호로는 80(http), 443(https)등이 있습니다.
+  </p>
+  <h4>path</h4>
+  <p>리소스가 있는 경로를 의미합니다. 계층적 구조를 이루고 있습니다.</p>
+  <h4>query</h4>
+  <p>
+    웹서버에 재공하는 파라미터를 의미하며, key=value 형태를 지니고 있습니다. ?로
+    쿼리를 시작하고, &amp;로 쿼리 추가가 가능합니다.
+  </p>
+  <p>예시 ) ?q=hello&amp;hl=ko</p>
+  <h4>fragment</h4>
+  <p>
+    http 내부 북마크 등에 사용되는 정보로, 서버로 전송되지는 않습니다. #으로
+    시작합니다.
+  </p>
+</div>
