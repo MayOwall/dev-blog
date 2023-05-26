@@ -1,0 +1,69 @@
+<div class="markdown-body">
+  <h1>오늘한 것</h1>
+  <h3>Project : 1Day1Quote</h3>
+  <ul>
+    <li>프로젝트 피그마 디자인 끝내기</li>
+    <li>프로젝트에 사용할 기술 선정</li>
+    <li>프로젝트 노션 페이지 작성</li>
+    <li>프로젝트 앱 생성</li>
+    <li>프로젝트 기본 설정 (Emotion, CSS, SVGR 등)</li>
+    <li>GNB 컴포넌트 구현</li>
+  </ul>
+  <h3>FE</h3>
+  <ul>
+    <li>Next13 변화&amp;장점 학습</li>
+    <li>Next13 변화 및 장점 관련 기술 블로그 글 작성</li>
+  </ul>
+  <h1>오늘 배운 것</h1>
+  <h3>Next13 변화 및 장점</h3>
+  <p>(부제 : Next13을 사용해야 하는 이유)</p>
+  <p>
+    Next13의 변화와 장점에 대해 알아보고 작성한 글은
+    <a href="https://mayowall.tistory.com/118">여기</a>서 확인할 수 있습니다.
+  </p>
+  <h3>HMR</h3>
+  <p>
+    Hot Module Replacement. 런타임에 페이지 새로고침 없이 모듈을 자동으로
+    개싱하는 기능을 의미합니다. 개발 경험을 향상시킨다는 장점이 있습니다.
+  </p>
+  <h3>ThemeProvider와 SSR</h3>
+  <p>
+    서버사이드렌더링에서는 Themeprovider를 사용할 수 없다. (특히 emotion의
+    ThemeProvider!!)
+  </p>
+  <p>
+    ThemeProvider대신
+    <a
+      href="https://developer.mozilla.org/ko/docs/Web/CSS/Using_CSS_custom_properties"
+      >CSS의 변수</a
+    >
+    기능을 사용할 것을 추천한다.
+  </p>
+  <h3>CSS 변수</h3>
+  <p>CSS는 변수를 사용할 수 있다.</p>
+  <p>
+    변수는 <code>—</code>로 시작하는 이름으로 지정할 수 있으며,
+    <code>var()</code> 함수 안에서 사용할 수 있다.
+  </p>
+  <p>또한, 선언한 변수는 해당 클로저 안에서만 사용 가능하다.</p>
+  <p>변수를 사용하는 방법은 아래와 같다.</p>
+  <pre><code class="language-css">/* :root에서 선언할 시 전역변수처럼 사용할 수 있다. */
+:root {
+  --OWN-NAME : #343434;
+    --color-white : #ffffff;
+}
+
+div {
+    /* var()함수를 통해 변수를 사용할 수 있다. */
+    color : var(--color-white);
+}</code></pre>
+  <h1>오늘 느낀 점</h1>
+  <p>
+    프로젝트를 새로 하나 시작했다. 일주일안에 프론트엔드 백엔드 모두 배포하는
+    것을 목표로 하고 있다!
+  </p>
+  <p>
+    그리고 CSS 변수는 신이야!!! 이 쉽고 좋은걸 왜 몰랐을까? CSS에 대해 공부할
+    필요성을 느낀다🔥🔥
+  </p>
+</div>

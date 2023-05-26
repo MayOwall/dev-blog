@@ -1,0 +1,44 @@
+<div class="markdown-body">
+  <h1>오늘 한 것</h1>
+  <ul>
+    <li>GNB 위치 지정</li>
+    <li>BNB 구현</li>
+    <li>AppGuide 구현</li>
+    <li>LoginTemplate 구현</li>
+    <li>CommunityCard 구현</li>
+    <li>RoundButton 구현</li>
+    <li>CommunityTemplate 구현</li>
+    <li>#1 issue 풀리퀘 형성 및 dev로 머지</li>
+    <li>테스트 페이지 배포</li>
+  </ul>
+  <h1>오늘 배운 것</h1>
+  <h3>fixed 컴포넌트 가운데 정렬하기</h3>
+  <p>%를 이용해 top, left 등을 지정하면 된다</p>
+  <pre><code class="language-jsx">.container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+  }</code></pre>
+  <h3>next13에서 현재 url 찾는 방법 : usePathname</h3>
+  <p>
+    usePathname을 통해 현재 url을 알 수 있다. usePathname은 next/navigation을
+    통해 불러올 수 있다.
+  </p>
+  <pre><code class="language-jsx">&#39;use client&#39;
+  import {usePathname} from &#39;next/navigation&#39;
+  
+  export default function Component() {
+      const pathname = usePathname();
+  }</code></pre>
+  <h3>sharp 패키지</h3>
+  <p>next13에서 강력하게 사용하길 추천하는 이미지 최적화 패키지.</p>
+  <h1>오늘 느낀 점</h1>
+  <p>
+    오늘 프로젝트의 테스트용 페이지를 배포했다. 아무리 크롬 개발자 도구를 통해
+    애플리케이션이 모바일에서 어떻게 보이는지 확인하더라도, 확실하게 확인하려면
+    모바일에서 직접 확인하는 것이 제일 좋을 것 같아서 배포를 했다. 결론은 매우
+    만족! vercel의 배포가 워낙 쉬운 것도 있고, dev가 업데이트 될 때 마다 자동
+    배포되도록 했더니 애플리케이션 테스트를 모바일에서 바로 할 수 있어서 너무
+    편리했다. 이래서 테스트 자동화를 만드는 것인가..?
+  </p>
+</div>
