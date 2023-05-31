@@ -1,0 +1,67 @@
+<div class="markdown-body">
+  <h2>문제 상황</h2>
+  <p>process.env를 통해 환경변수를 불러왔을 때, undefined으로 나옴</p>
+  <blockquote data-ke-style="style1">
+    <p data-ke-size="size16">
+      <span style="font-family: 'Noto Serif KR'"
+        ><p>
+          next13에서는 process.env를 별도의 라이브러리 설치 없이 기본적으로
+          사용가능하다.
+        </p>
+      </span>
+    </p>
+  </blockquote>
+  <br />
+  <h2>문제 원인 및 해결 방법</h2>
+  <p><del>에러 방랑자(?) 당신의 에러도 다음 중 하나이길 바란다.</del></p>
+  <br />
+  <h3>원인 1. process.env를 비구조화 할당을 통해 불러옴</h3>
+  <p>
+    env는 비구조화 할당을 통해 불러올 수 없다. 비구조화 할당을 풀어주도록 하자.
+  </p>
+  <blockquote data-ke-style="style1">
+    <p data-ke-size="size16">
+      <span style="font-family: 'Noto Serif KR'"
+        ><p>
+          참고로 Dynamic Variables (동적 변수) 도 process.env에서는 먹히지
+          않으니 주의하도록 하자.
+        </p>
+      </span>
+    </p>
+  </blockquote>
+  <pre><code class="language-jsx">// Before
+const { NEXT_PUBLIC_PRIVATE_KEY } = process.env;
+// After
+const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;</code></pre>
+  <br />
+  <h3>원인 2. 변수 앞에 NEXT_PUBLIC_을 적어주지 않음</h3>
+  <p>
+    브라우저 환경에서 환경변수를 사용하려면, NEXT_PUBLIC_이라는 접두사를
+    포함하여 변수 선언을 해줘야 한다. (Node.js에서 사용하고자 한다면 상관없다)
+  </p>
+  <pre><code class="language-jsx">// Before
+PRIVATE_KEY=&#39;very secret key&#39;
+
+// After
+NEXT_PUBLIC_PRIVATE_KEY=&#39;very secret key&#39;</code></pre>
+  <br />
+  <h3>원인 3. 코드에서 환경변수를 불러올 때 NEXT_PUBLIC_을 빼고 불러옴</h3>
+  <p>
+    내가 1시간동안 삽질한 결정적인 원인🔥<br />환경변수를 불러올 때도 접두사를
+    빼먹지 말고 적어주자.
+  </p>
+  <pre><code class="language-jsx">// Before
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
+// After
+const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;</code></pre>
+  <br />
+  <br />
+  <h3>관련 문서</h3>
+  <p>
+    <a
+      href="https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#loading-environment-variables"
+      >next13 blog : <strong><strong>Environment Variables</strong></strong></a
+    >
+  </p>
+</div>
