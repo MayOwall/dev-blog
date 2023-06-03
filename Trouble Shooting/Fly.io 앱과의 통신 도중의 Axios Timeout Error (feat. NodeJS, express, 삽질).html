@@ -1,0 +1,132 @@
+<div class="markdown-body">
+  <h3 style="color: orange">한줄 요약</h3>
+  <aside class="goal">
+    <p>
+      fly.toml파일의 http section 중 <code>internal_port</code>에서 설정한 포트
+      넘버가 코드 상의 포트넘버와 동일한지 확인해 봅시다!!
+    </p>
+  </aside>
+
+  <br />
+
+  <h2>문제 상황</h2>
+  <p>
+    fly.io를 통해 배포한 앱(백엔드 서버)과 통신할 때 axios timeout 에러 발생.
+    local:8080 환경에서는 에러가 발생하지 않으나, 동일한 코드로 배포한
+    fly.io에서만 문제가 생기는 상황이었다.
+  </p>
+  <br />
+
+  <h2>문제 원인</h2>
+  <p>
+    fly.toml파일의 http section 중 <code>internal_port</code> 설정 코드상의
+    PORT와 일치하지 않아 생긴 문제
+  </p>
+  <h3>fly.toml?</h3>
+  <p>
+    fly.io를 통해 배포할 앱을 구성할 수 있는 파일. 배포할 앱의 빌드, 환경 변수,
+    internet-exposed services, disk mounts, 배포 명령등을 구성할 수 있다.
+  </p>
+  <p>
+    크게 <code>app</code>, <code>Primary Region</code>,
+    <code>Runtime Options</code>, <code>Console Command</code>,
+    <code>build</code>, <code>deploy</code>, <code>env variables</code>,
+    <strong><code>http service</code></strong
+    >, <code>services</code>... 등등 수많은 섹션으로 구성되어 있다. 각 섹션 별
+    보다 자세한 역할은
+    <a href="https://fly.io/docs/reference/configuration/">여기</a>를 통해
+    참고할 수 있다.
+  </p>
+  <h3>http service</h3>
+  <p>
+    http service 섹션은 배포되는 <a href="http://fly.io">fly.io</a> 앱의 http
+    통신과 관련된 설정을 담당한다. 대표적으로 <code>internal_port</code>,
+    <code>force_https</code>, <code>auth_stop_machine</code>,
+    <code>auto_start_machine</code>등과 같은 설정을 관리할 수 있다.
+  </p>
+  <p>
+    아래 설정들 외에 더 다양한 설정들은
+    <a
+      href="https://fly.io/docs/reference/configuration/#the-http_service-section"
+      >이곳</a
+    >을 통해 알아볼 수 있다.
+  </p>
+  <ul>
+    <li>
+      <p>
+        <strong><code>internal_port</code></strong
+        ><br />클라이언트와 통신하기 위한 포트를 설정이다.
+        <strong>기본은 8080</strong>이며, fly.io 개발진 또한 8080 포트를
+        사용하기를 권장한다.
+      </p>
+    </li>
+    <li>
+      <p>
+        <code>force_https</code><br />http 통신을 https 통신으로 리다이렉트하기
+        위한 설정. (boolean)
+      </p>
+    </li>
+    <li>
+      <p>
+        <code>auth_stop_machine</code><br />통신이 없을 경우 앱이 배포되고 있는
+        컴퓨터를 자동으로 종료하는 설정. 기본값은 true이다.
+      </p>
+    </li>
+    <li>
+      <p>
+        <code>auto_start_machine</code><br />통신이 있을 경우 멈춘 컴퓨터를
+        자동으로 키도록 하는 설정. 기본값은 true이다.
+      </p>
+    </li>
+  </ul>
+  <h3>잘못된 inter_port 설정</h3>
+  <p>
+    <strong>에러의 원흉은 바로 <code>inter_port</code>였다.</strong><br />작성한
+    코드에서는 포트가 8080을 사용하도록 되어있는데, 내 fly.toml 파일 내의
+    internal_port가 3000으로 설정되어 있던 것.
+  </p>
+  <pre><code>app = &quot;my-app&quot;
+  primary_region = &quot;nrt&quot;
+  
+  [http_service]
+    **internal_port = 3000 // 얘가 문제**
+    force_https = true
+    auto_stop_machines = true
+    auto_start_machines = true
+    min_machines_running = 0</code></pre>
+  <p>
+    즉 앱(서버)는 8080에서 요청을 기다리고 있는데, 정작 요청들은 3000이라는
+    잘못된 포트로 들어가게 되어 발생하는 문제였다. 앱은 요청을 받지 못해 응답을
+    보낼 수 없었고, 클라이언트는 응답을 받지 못한 채로 http timeout 시간 초과가
+    발생하게 되면서 클라이언트와 백이 소통하지 못하게 되는 해프닝…이었다 😵‍💫
+  </p>
+  <br />
+
+  <h2>문제 해결</h2>
+  <p>
+    internal_port의 포트 넘버를 코드 상의 포트 넘버와 일치하도록 변경해주어
+    해결하였다. 나 같은 경우엔 8080으로 변경해주었다.
+  </p>
+  <pre><code>app = &quot;my-app&quot;
+  primary_region = &quot;nrt&quot;
+  
+  [http_service]
+    **internal_port = 8080 // 코드 상의 포트 넘버와 동일하도록 변경**
+    force_https = true
+    auto_stop_machines = true
+    auto_start_machines = true
+    min_machines_running = 0</code></pre>
+  <br />
+  <h3>약간의 TMI…</h3>
+  <p>
+    원래 fly launch를 통해 앱을 배포하면, internal_port는 자동으로 8080이
+    배정된다. 위에서 이야기했듯이 8080이 기본값이기 때문. 그런데 무슨 이유인지는
+    몰라도 fly가 내 앱을 launch할 땐 3000을 기본값으로 설정했다…왜…? 이유를 바로
+    찾을 순 없었다.
+    <a
+      href="https://community.fly.io/t/which-set-fly-toml-http-service-sections-inter-port/13312"
+      >fly.io 커뮤니티</a
+    >
+    를 통해 물어볼 예정! 답이 올라온다면 이곳에 함께 공유하겠다.
+  </p>
+</div>
