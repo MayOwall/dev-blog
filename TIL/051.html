@@ -1,0 +1,163 @@
+<div class="markdown-body">
+  <h1>오늘 한 것</h1>
+  <ul>
+    <li><a href="http://fly.io">fly.io</a> 서버 문제 해결</li>
+    <li>
+      블로그 스킨 변경
+      <ul>
+        <li>블로그 글 태그 추가</li>
+        <li>블로그 params 숫자에서 제목 방식으로 변경</li>
+      </ul>
+    </li>
+    <li>
+      homepage api 구현
+      <ul>
+        <li>cardlistdata 구현</li>
+        <li>무한스크롤 구현</li>
+        <li>카드 타입 변경 기능 구현</li>
+      </ul>
+    </li>
+  </ul>
+  <h1>오늘 배운 것</h1>
+  <h2>[next auth] JWT_SESSION_ERROR</h2>
+  <p>JWTKeySupport: the key does not support HS512 verify algorithm</p>
+  <p>
+    The algorithm used for generating your key isn’t listed as supported. You
+    can generate a HS512 key using
+  </p>
+  <pre><code class="language-jsx">jose newkey -s 512 -t oct -a HS512</code></pre>
+  <h3>HS512 알고리즘?</h3>
+  <p>
+    JWT에서 사용하는 12개의 기본 서명 알고리즘 중 하나. 대칭 알고리즘에 속한다.
+    (1개의 secret key를 공유함)
+  </p>
+  <p>
+    512bit의 digest를 생성하며, 적어도 64 bytes 이상의 secret key를 사용한다.
+  </p>
+  <h3>JWT secret</h3>
+  <p>next_auth의 option 중 하나. […nextauth].ts파일에서 설정 가능하다.</p>
+  <p>
+    토큰을 해시하고, 쿠키를 사인하고 암호화하여 암호화된 키를 생성하기 위해
+    사용되는 랜덤의 string. 이때의 string은 반드시 HS512 알고리즘을 따라야 한다.
+  </p>
+  <p>
+    만약 환경변수에서 NEXTAUTH_SECRET을 선언하였다면, 이 option을 별도로 선언할
+    필요는 없다.
+  </p>
+  <p>
+    <strong
+      >배포 환경에서는 반드시 secret 옵션 설정, 혹은 NEXTAUTH_SECRET 설정 둘 중
+      하나는 반드시 이뤄져야 한다!!! 🔥</strong
+    >
+  </p>
+  <h3>문제 원인</h3>
+  <p>
+    JWT에서 사용하는 secret 키가 HS512 알고리즘 규칙에 맞지 않는 키이기 때문에
+    생기는 문제.
+  </p>
+  <h3>문제 해결</h3>
+  <p>
+    기존에 사용하던 NEXTAUTH_SECRET 환경 변수, 혹은 […nextauth].ts의
+    secret옵션의 값을 HS512 알고리즘 규칙에 맞는 string으로 변경해주면 된다.
+  </p>
+  <p><del>(젭알 되게 해주세요)</del></p>
+  <p>(응 아니야~ 이거 때문 아니니까 돌아가)</p>
+  <h2>🔥 Fly.io 서버 통신 도중의 timeout Error</h2>
+  <h3>한줄 요약</h3>
+  <p>
+    fly.toml의 http section 중 internal_port에서 설정한 포트 넘버가 코드 상의
+    포트넘버와 동일한지 확인해 봅시다!!
+  </p>
+  <p>
+    이 에러에 대한 더 자세한 원인과 해결 방법은
+    <a
+      href="https://mayowall.tistory.com/entry/Flyio-%EC%95%B1%EA%B3%BC%EC%9D%98-%ED%86%B5%EC%8B%A0-%EB%8F%84%EC%A4%91%EC%9D%98-Axios-Timeout-Error-feat-NodeJS-express-%EC%82%BD%EC%A7%88"
+      >여기</a
+    >에서 확인할 수 있다.
+  </p>
+  <h2>mongoDB cursor 메서드</h2>
+  <h3>cursor란?</h3>
+  <p>
+    일반적으로 cursor(이하 커서)란 특정 SQL 문장을 처리한 결과를 담고 있는
+    영역을 가리키는 일종의 포인터이다.
+  </p>
+  <p>
+    MongoDB에서 커서란 MongoDB가 find() 메서드를 통해 넘겨주는 결과의 집합을
+    말한다. 커서의 메서드들을 통해 결과 수를 제한하거나, 특정 수 만큼 결과를
+    건너뛰거나, 정렬 등을 하는 것이 가능하다.
+  </p>
+  <h3>cursor.sort()</h3>
+  <p>cursor를 정렬할 수 있는 메서드.</p>
+  <p>
+    field 자리에 정렬하고 싶은 프로퍼티 이름을 적어주고, 값으로는 1 (오름차순)
+    또는 -1 (내림차순)을 적어주면 된다. 반드시 조회 전에 설정해야한다.
+  </p>
+  <pre><code class="language-jsx">db.collection(&#39;YOUR_COLLECTION_NAME&#39;).find().**sort({field: value})**</code></pre>
+  <h3>cursor.skip()</h3>
+  <p>find() 메서드가 반환할 값의 시작점을 지정할 수 있는 메서드.</p>
+  <p>
+    skip의 값만큼 반환할 값의 시작점이 건너뛰어진다. 값은 number 타입을 받는다.
+  </p>
+  <pre><code class="language-jsx">db.collection(&#39;YOUR_COLLECTION_NAME&#39;).find().skip(10) // 10 인덱스만큼 건너 뛰어진다.</code></pre>
+  <h3>cursor.limit()</h3>
+  <p>find() 메서드가 반환할 값의 개수를 제한하는 메서드.</p>
+  <p>limit 값만큼 제한된 값이 리턴된다. 값은 number 타입을 받는다.</p>
+  <pre><code class="language-jsx">db.collection(&#39;YOUR_COLLECTION_NAME&#39;).find().limit(5) // 5개의 결과만 리턴된다.</code></pre>
+  <h3>응용</h3>
+  <p>
+    이름이 card인 컬렉션의 커서들을 popular 프로퍼티를 기준으로 내림차순으로
+    정렬한 후,<br />11번째 값부터 20번째 값까지 줘.
+  </p>
+  <pre><code class="language-jsx">db.collection(&#39;card&#39;).find().sort({popular: -1}).skip(10).limit(10);</code></pre>
+  <h2>무한 스크롤 구현</h2>
+  <h3>observer option 설정</h3>
+  <pre><code class="language-jsx">const observerOption = { 
+    threshold: 0.1, 
+    rootMargin: &quot;100px 0px&quot; 
+};</code></pre>
+  <h3>observer callback 설정</h3>
+  <pre><code class="language-jsx">const observerCallback = (entries: any, observer: any) =&gt; {
+  entries.forEach((entry: any) =&gt; {
+    if (entry.isIntersecting) {
+      observer.unobserve(entry.target);
+            // 해당 객체가 화면에 나타날 때 마다 실행할 함수 작성
+    }
+  });
+</code></pre>
+  <h3>observer 선언</h3>
+  <pre><code class="language-jsx">observer.current = new IntersectionObserver(
+  observerCallback,
+  observerOption
+);</code></pre>
+  <h3>observer에 observe할 Dom 요소 삽입</h3>
+  <pre><code class="language-jsx">const domList = document.querySelectorAll(&quot;.dom&quot;);
+    const lastDom = domList[domList.length - 1];
+    if (!!lastDom) {
+            //.dom을 클래스명으로 가진 요소 중 가장 마지막 요소를 observer에 추가
+      observer.current.observe(lastDom);
+    }</code></pre>
+  <h1>오늘 느낀 점</h1>
+  <p>
+    진짜 미쳐버릴 것 같던 <a href="http://fly.io">fly.io</a> 앱 에러를
+    드디어…드디어 해결했다..!! 에러의 원인이 간단해서 더 화..가 나긴
+    했지만…그래도 온전히 내 힘으로 해결해 본 문제라서 너무 뿌듯했다.
+  </p>
+  <p>
+    에러에 관한 자세한 이야기는
+    <a
+      href="https://mayowall.tistory.com/entry/Flyio-%EC%95%B1%EA%B3%BC%EC%9D%98-%ED%86%B5%EC%8B%A0-%EB%8F%84%EC%A4%91%EC%9D%98-Axios-Timeout-Error-feat-NodeJS-express-%EC%82%BD%EC%A7%88"
+      >여기</a
+    >에서 확인할 수 있다.
+  </p>
+  <p>
+    아무래도 생긴지 얼마 되지 않은 배포 도구(fly.io)인 것도 있고, 나와 같은 에러
+    케이스가 스택 오버플로우에도 전혀 없기 때문에 더더욱 문제의 원인을 찾기
+    힘들었다. 특히 session callback안에 axios를 넣어놨기 때문에 내부 코드
+    진행상황을 더 찾기 어려운 것도 있었다. 결국 해결하기 위해 session
+    callback안에 있던 axios코드들을 전부 꺼내서 테스트 해 봤을 정도이니 말이다.
+  </p>
+  <p>
+    그만큼 힘들게 해결한 에러인 만큼, 당분간 이 에러 만큼은, 그리고 이 에러를
+    해결하기 위해 시도했던 모든 테스트들은 잊지 못할 것 같다 ㅋㅋ
+  </p>
+</div>

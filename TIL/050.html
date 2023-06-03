@@ -1,0 +1,38 @@
+<div class="markdown-body">
+  <aside class="goal">50번째 TIL 달성 🎉 경축 🎉!!!</aside>
+  <h1>오늘 한 것</h1>
+  <ul style="list-style-type: disc" data-ke-list-type="disc">
+    <li>1Day1Quote write 기능을 테스트페이지에 vercel을 통해 배포</li>
+    <li>1Day1Quote BE 서버 fly.io를 통해 배포</li>
+  </ul>
+  <h1>오늘 배운 것</h1>
+  <h2 data-ke-size="size26">location에러와 useRouter</h2>
+  <p data-ke-size="size16">
+    가끔 useRouter를 사용하는 페이지에서 undefined location 에러가 뜰 때가 있다.
+  </p>
+  <p data-ke-size="size16">
+    원인은 next13이 컴포넌트를 서버사이드에서 렌더링하고 있는 중에 useRouter가
+    호출되기 때문.<br />useRouter를 useEffect내부로 옮겨주면, 해당 라우터가
+    브라우저 랜더링 이후에 실행되기 때문에 undefined location이 해결된다.
+  </p>
+  <h2 data-ke-size="size26"><a href="http://Fly.io">Fly.io</a> timeout 문제</h2>
+  <p data-ke-size="size16">
+    fly.io를 통해 백엔드 서버를 배포했는데, 자꾸 시간초과 에러가 난다&hellip;.
+  </p>
+  <p data-ke-size="size16">
+    timeout 제한을 3초, 5초, 10초까지 늘려봐도 여전하다.. .그렇다고 주소가
+    틀린것도 아니고 ㅠ
+  </p>
+  <p data-ke-size="size16">
+    환경변수도 빠짐없이 넣었고, 로컬에서는 정상적으로 동작하는 것 까지 확인
+    완료했다.
+  </p>
+  <p data-ke-size="size16">
+    그런데 또 막상 <a href="http://fly.io">fly.io</a> 서버 모니터링을 확인해보니
+    서버에 request가 들어가지도 않았다. 이게 무슨 이유때문에 이러는걸까 ㅠ
+  </p>
+  <p data-ke-size="size16">
+    오늘은 취침 시간이 다가와서 이만 자야한다&hellip;내일은 풀 수 있을까 ㅜ 만약
+    풀지 못한다면 앱 배포를 새로 할 계획.
+  </p>
+</div>
