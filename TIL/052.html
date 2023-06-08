@@ -1,0 +1,177 @@
+<div class="markdown-body">
+  <h1>오늘 한 것</h1>
+  <h3 data-ke-size="size23">1Day1Quote</h3>
+  <ul style="list-style-type: disc" data-ke-list-type="disc">
+    <li>홈페이지 카드 타입 변경 및 랜더링 로직 변경</li>
+    <li>프로필 페이지 구현</li>
+  </ul>
+  <h1>오늘 배운 것</h1>
+  <h2 data-ke-size="size26">React와 리랜더링</h2>
+  <h3 data-ke-size="size23">React가 리랜더링을 하는 조건</h3>
+  <ol style="list-style-type: decimal" data-ke-list-type="decimal">
+    <li>내부 상태값(state) 변경</li>
+    <li>부모가 전해준 속성(props) 변경</li>
+    <li>중앙 상태값 변경 (redux store..등)</li>
+    <li>부모 컴포넌트가 리랜더링 되는 경우</li>
+  </ol>
+  <h3 data-ke-size="size23">React 초기 렌더링 과정</h3>
+  <ol style="list-style-type: decimal" data-ke-list-type="decimal">
+    <li>함수 컴포넌트 호출</li>
+    <li>구현부 실행</li>
+    <li>
+      props 취득, hook 실행, 내부 변수 및 함수 생성.<br />단, hook에 등록해둔
+      상태값, 부수함수 효과 등은 별도 메모리에 저장되어 관리된다.
+    </li>
+    <li>return 실행</li>
+    <li>랜더링 시작</li>
+    <li>Render Phase (렌더 단계)</li>
+    <li>가상 DOM 생성</li>
+    <li>Commit Phase (커밋 단계)</li>
+    <li>실제 DOM에 가상 돔 반영</li>
+    <li>useLayoutEffect</li>
+    <li>
+      DOM 반영 후, 브라우저가 화면에 Paint하기 전, useLayoutEffect에 등록해둔
+      effect가 &lsquo;동기&rsquo;로 실행된다.<br />이 때, state, redux store
+      등의 변경이 있다면 한번 더 재랜더링 된다.
+    </li>
+    <li>Paint</li>
+    <li>브라우저가 실제 DOM을 화면에 그린다. &amp;&amp; didMount 완료</li>
+    <li>useEffect</li>
+    <li>
+      Mount되어 화면이 그려진 직후, useEffect에 등록해둔 effect가
+      &lsquo;비동기&rsquo;로 실행된다.
+    </li>
+  </ol>
+  <h3 data-ke-size="size23">React 재랜더링 과정</h3>
+  <ol style="list-style-type: decimal" data-ke-list-type="decimal">
+    <li>함수 컴포넌트 재호출</li>
+    <li>
+      구현부 실행<br />props 취득, hook 실행, 내부 변수 및 함수 재생성. 단, 각
+      hook의 특성에 따라 기존 메모리에 저장한 내용을 적절히 활용한다.
+    </li>
+    <li>return 실행<br />랜더링 시작</li>
+    <li>
+      Render Phase (랜더 단계)<br />새로운 가상 DOM 생성 후, 이전 가상 DOM과
+      비교하여, 달라진 부분을 탐색하고, 실제 DOM에 반영할 부분을 결정한다.
+    </li>
+    <li>Commit Phase (커밋 단계)<br />달라진 부분만 실제 DOM에 반영한다.</li>
+    <li>
+      useLayoutEffect<br />브라우저가 화면에 Paint 하기 전에, useLayoutEffect에
+      등록해둔 effect가 &lsquo;동기&rsquo;로 실행된다. 이 때, state, redux store
+      등의 변경이 있다면 한번 더 재랜더링 된다.
+    </li>
+    <li>
+      Paint<br />브라우저가 실제 DOM을 화면에 그린다. didUpdate가 완료된다.
+    </li>
+    <li>
+      useEffect<br />update되어 화면이 그려진 직후, useEffect에 등록해둔
+      effect가 &lsquo;비동기&rsquo;로 실행된다. effect에 return부분이 있다면,
+      구현부보다 먼저 실행된다.
+    </li>
+  </ol>
+  <h2 data-ke-size="size26">useEffect</h2>
+  <h3 data-ke-size="size23">의존성 배열</h3>
+  <p data-ke-size="size16">
+    useEffect hook의 두번째 매개변수. useEffect에 의존성 배열에 특정 값을
+    넣으면, 해당 값이 변경이 있을 때 마다 useEffect의 side effect가 재실행 된다.
+    이때, 의존성 배열에 넣는 값은 렌더링과 관련된 값이어야 한다.
+  </p>
+  <h3 data-ke-size="size23">
+    의존성 배열의 state 값이 1에서 1로 변경되었을 때, useEffect는 인식할 수
+    있을까?
+  </h3>
+  <p data-ke-size="size16"><b>관련개념</b></p>
+  <p data-ke-size="size16">
+    useEffect, dependencies, 원시 값 (값에 의한 전달), 객체 값(참조에 의한 전달)
+  </p>
+  <p data-ke-size="size16">&nbsp;</p>
+  <p data-ke-size="size16">결론부터 말하면&hellip;.</p>
+  <p data-ke-size="size16">아니!!! <b>인식하지 못한다.</b></p>
+  <p data-ke-size="size16">
+    useEffect은 dependencies를 메모리에 저장한 후, dependency의 값이 변경될 때
+    변경된 dependency 값이 기존 메모리에 저장되어 있던 dependency의 값과 같은지
+    비교한다. 여기서 원시값과 참조값에 대한 개념이 작용한다.
+  </p>
+  <p data-ke-size="size16">&nbsp;</p>
+  <p data-ke-size="size16">
+    원시 값은 값에 의한 전달을 하며, 원시 값을 비교할 때는 변수가 가리키는
+    메모리에 저장되어 있는 값 자체를 비교한다. 따라서 useEffect의 의존성 값이
+    1에서 1로 변경되었을 때, React는 기존 의존성 배열 메모리에 있던 원시값 1과
+    새로 변경된 값인 1을 비교하게 되고, 이 둘은 원시값이면서 메모리에 저장되어
+    있는 값 또한 동일하기 때문에 두 값이 동일하다고, 즉 값이 변하지 않았다고
+    인식하게 된다. 따라서 useEffect가 재실행 되지 않게 되는 것이다.
+  </p>
+  <p data-ke-size="size16">&nbsp;</p>
+  <p data-ke-size="size16">
+    반대로 dependency가 객체일 경우, 해당 객체에 대한 참조값으로 비교가 이뤄지기
+    때문에 기존 dependency 객체와 변경된 dependency 객체가 같은 프로퍼티와
+    프로퍼티 값을 가하더라도 서로 다르다고 판단, useEffect가 재실행되게 된다.
+  </p>
+  <p data-ke-size="size16">&nbsp;</p>
+  <p data-ke-size="size16">참고 문서 :</p>
+  <p data-ke-size="size16">
+    <b
+      ><b
+        ><a
+          href="https://velog.io/@moolbum/JavaScript-%EC%B0%B8%EC%A1%B0%ED%98%95-%EB%8D%B0%EC%9D%B4%ED%84%B0"
+          >JavaScript - 원시 값과 객체(참조)의 비교</a
+        ></b
+      ></b
+    >
+  </p>
+  <p data-ke-size="size16">
+    <b
+      ><a
+        href="https://dev.to/hey_yogini/useeffect-dependency-array-and-object-comparison-45el"
+        >UseEffect dependency array and object comparison!</a
+      ></b
+    >
+  </p>
+  <h2 data-ke-size="size26">useState와 함수</h2>
+  <p data-ke-size="size16">
+    한 함수의 클로저 안에서 useState의 state변경과 useState state 값에 대한
+    참조가 동시에 이뤄질 때, 함수는 변경되기 전의 state값을 참조한다.
+  </p>
+  <p data-ke-size="size16">
+    왜??? 바로 useState 의 state에 대한 참조는 전역 방식이 아닌 선언 당시
+    클로저에서의 state값을 참조하기 때문.
+  </p>
+  <p data-ke-size="size16">
+    만약 바뀐 최신의 값을 참조하고 싶다면 useRef를 사용하면 된다.
+  </p>
+  <h1>오늘 에러</h1>
+  <p data-ke-size="size16">
+    useEffect가 deps 인자로 전달한 state의 변경을 감지하지 못함.
+  </p>
+  <pre class="pf"><code>// state
+  const [pageNum, setPageNum] = useState(1);
+  
+  // useEffect
+  useEffect(() =&gt; {
+      ....
+  }, [pageNum]);</code></pre>
+  <h3 data-ke-size="size23">문제 원인</h3>
+  <p data-ke-size="size16">
+    useEffect가 deps 인자들의 값을 비교할 때, 원시값과 객체 값의 비교 방식이
+    다르기 때문 (자세한 사항은 오늘 배운 것에 정리해 두었다.)
+  </p>
+  <h3 data-ke-size="size23">문제 해결</h3>
+  <p data-ke-size="size16">if 분기문을 통해 해결</p>
+  <h1>오늘 느낀 점</h1>
+  <p data-ke-size="size16">
+    React의 기능 추상화는 정말 놀라울 정도이다. 오죽하면 각 기능의 상세 동작
+    원리를 모르는 내가 반년 가까이 별 생각없이 쓸 수 있었을 정도이니까. 갑자기
+    이게 무슨 말이냐고? 그렇다. 난 오늘 원리를 모르는 개발자로서의 한계에
+    도달했다.
+  </p>
+  <p data-ke-size="size16">
+    오늘 React useEffect 관련 에러를 트러블 슈팅하면서 내가 얼마나 React, 특히
+    useState, useRef, useLayoutEffect, useEffect에 무지했는지 알게 되었다.
+    더군다나 React 랜더링 생명주기에 관해서도 제대로 이해하고 있지 않았고, 그
+    덕분에 엄청난 삽질을 경험했다.
+  </p>
+  <p data-ke-size="size16">
+    코딩의 신님 잘못했습니다,,, 이제 이론 공부 열심히 할께요&hellip;.. 리액트
+    공식문서도 틈틈히 정독할께요 😭
+  </p>
+</div>
