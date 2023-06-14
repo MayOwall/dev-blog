@@ -1,0 +1,61 @@
+<div class="markdown-body">
+  <h1>오늘 한 것</h1>
+  <h2 data-ke-size="size26">알고리즘</h2>
+  <h3 data-ke-size="size23">그리디</h3>
+  <ul style="list-style-type: disc" data-ke-list-type="disc">
+    <li>프로그래머스 : 체육복</li>
+    <li>
+      <code class="language-jsx">
+        const solution = (n, lost, reserve) =&gt; { lost = lost.sort((a, b)
+        =&gt; a - b); reserve = reserve.sort((a, b) =&gt; a - b); lost =
+        lost.filter(v =&gt; { const same = reserve.findIndex(resV =&gt; resV ===
+        v); if(same !== -1) { reserve[same] = null; return false; }; return
+        true; }); lost = lost.map(losV =&gt; { const small = reserve.findIndex(v
+        =&gt; v === losV - 1); const large = reserve.findIndex(v =&gt; v ===
+        losV + 1); if(small !== -1) { reserve[small] = null; return null; } else
+        if (large !== -1) { reserve[large] = null; return null; } else { return
+        losV; } }); return n - lost.filter(v =&gt; !!v).length; }</code
+      >
+    </li>
+    <li>프로그래머스 : 큰 수 만들기</li>
+    <li>
+      <code class="language-jsx">
+        const solution = (number, k) =&gt; { const stack = [];
+        number.split('').forEach(str =&gt; { stack.push(str * 1);
+        while(stack[stack.length - 1] &gt; stack[stack.length - 2] &amp;&amp;
+        !!k) { k -= 1; stack[stack.length - 2] = stack[stack.length - 1];
+        stack.pop(); } }); let answer = stack.join(''); if(!!k) answer =
+        answer.slice(0, -k); return answer; }</code
+      >
+    </li>
+    <li>프로그래머스 : 구명보트</li>
+    <li>
+      <code class="language-jsx">
+        const solution = (people, limit) =&gt; { people = people.sort((a, b)
+        =&gt; b - a); let left = 0; let right = people.length - 1; let count =
+        0; while(left &lt;= right) { let sum = people[left]; if(people[left] +
+        people[right] &lt;= limit) { right -= 1; } left += 1; count += 1; }
+        return count; }</code
+      >
+    </li>
+    <li>섬 연결하기</li>
+    <li>
+      가장 비용이 적은 간선부터 연결해 나가면서, 이미 연결되어 있는 섬은
+      연결하지 않는다.
+    </li>
+  </ul>
+  <h2 data-ke-size="size26">기술 블로그</h2>
+  <ul style="list-style-type: disc" data-ke-list-type="disc">
+    <li>
+      <a
+        href="https://mayowall.tistory.com/entry/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%ED%81%B0-%EC%88%98-%EB%A7%8C%EB%93%A4%EA%B8%B0"
+        >[프로그래머스] 큰 수 만들기</a
+      >
+    </li>
+  </ul>
+  <h1>오늘 느낀 점</h1>
+  <p data-ke-size="size16">오늘 몸 상태가 좋지 않다,,, ㅠㅠ.</p>
+  <p data-ke-size="size16">
+    그래도 큰 수 만들기 문제를 푸는 건 정말 재미있었다. 알고리즘 ㅎㅎ
+  </p>
+</div>
